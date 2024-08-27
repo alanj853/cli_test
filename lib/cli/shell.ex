@@ -14,7 +14,7 @@ defmodule CLI.Shell do
                the shell starts
   """
   @type option ::
-          {:before_exit, (() -> term)}
+          {:before_exit, (-> term)}
           | {:prompt, charlist() | String.t()}
           | {:banner, (User.t() -> String.t())}
   @type username :: charlist() | binary()
@@ -22,7 +22,7 @@ defmodule CLI.Shell do
   @type peer :: String.t()
 
   defstruct mods: [],
-            prompt: 'myprompt> ',
+            prompt: ~c"myprompt> ",
             before_exit: &__MODULE__.noop/0,
             user: nil
 
@@ -37,9 +37,7 @@ defmodule CLI.Shell do
     do: run({user, nil}, peer, mods, schema, options)
 
   def run({_username, session, user}, peer, mods, schema, options) do
-      PromptCommand.run(__MODULE__, [{user, session}, peer, mods, schema, options],
-      timeout: 60000
-    )
+    PromptCommand.run(__MODULE__, [{user, session}, peer, mods, schema, options], timeout: 60000)
   end
 
   def init([user, peer, mods, schema, options]) do
@@ -49,7 +47,7 @@ defmodule CLI.Shell do
     Process.put(:schema, schema)
 
     gl = Process.group_leader()
-    command_list = ['help']
+    command_list = [~c"help"]
     :io.setopts(gl, encoding: :latin1, expand_fun: &expand(&1, command_list))
 
     {current_banner, current_bannerlerss_options} =
@@ -65,7 +63,7 @@ defmodule CLI.Shell do
     {:ok, shell}
   rescue
     error ->
-        Logger.error "Got this error #{inspect error}"
+      Logger.error("Got this error #{inspect(error)}")
       {:error, error}
   end
 
@@ -159,16 +157,16 @@ defmodule CLI.Shell do
 
     case longest_prefix(command_list, prefix) do
       {:prefix, p, [_]} ->
-        {:yes, p ++ ' ', []}
+        {:yes, p ++ ~c" ", []}
 
-      {:prefix, '', m} ->
-        {:yes, '', m}
+      {:prefix, ~c"", m} ->
+        {:yes, ~c"", m}
 
       {:prefix, p, m} ->
         {:yes, p, m}
 
       {:none, _m} ->
-        {:no, '', []}
+        {:no, ~c"", []}
     end
   end
 
@@ -218,11 +216,7 @@ defmodule CLI.Shell do
   def nthtail(n, [_ | a]), do: nthtail(n - 1, a)
   def nthtail(_, _), do: []
 
-
-
-
-
   def banner(_user) do
-    ["\nI am the banner\n"]
+    ["\nWelcome to the CLI\n"]
   end
 end

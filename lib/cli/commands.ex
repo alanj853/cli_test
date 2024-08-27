@@ -1,5 +1,4 @@
 defmodule CLI.Commands do
-
   def init do
     :ok
   end
@@ -7,6 +6,4 @@ defmodule CLI.Commands do
   def run(_command, _args) do
     IO.puts("world")
   end
-
-
 end

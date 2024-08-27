@@ -4,8 +4,6 @@ defmodule CLI.CommonCommands do
   """
   require Logger
 
-
-
   def exit([]) do
     :exit
   end
@@ -50,5 +48,4 @@ defmodule CLI.CommonCommands do
     """
     |> IO.write()
   end
-
 end

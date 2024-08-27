@@ -7,7 +7,6 @@ defmodule CLI.Login do
   @password_prompt "password: "
   @max_retries 3
 
-
   def prompt() do
     # Disable any tab-complete function that is already registered
     :io.setopts(Process.group_leader(), encoding: :latin1, expand_fun: &disable_expand(&1))
@@ -49,6 +48,6 @@ defmodule CLI.Login do
   end
 
   def disable_expand(_text) do
-    {:no, '', []}
+    {:no, ~c"", []}
   end
 end

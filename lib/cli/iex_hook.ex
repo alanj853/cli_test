@@ -16,7 +16,7 @@ defmodule CLI.IExHook do
 
     peer = "Terminal"
 
-    env =  [CLI.CommonCommands]
+    env = [CLI.CommonCommands]
     cli_mods = add_iex_command(env)
 
     try do
