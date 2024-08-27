@@ -1,21 +1,25 @@
 # CliTest
 
-**TODO: Add description**
+Repo for reproducing "issue" with CLI OTP 26
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `cli_test` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:cli_test, "~> 0.1.0"}
-  ]
-end
+Steps.
+1. Clone this repo and run install the following elixir and erlang versions using asdf
 ```
+asdf install erlang 25.3.2
+asdf install erlang 26.2.5
+asdf install elixir 1.16.3-otp-25
+asdf install elixir 1.16.3-otp-26
+```
+2. Run "iex -S mix"
+This should launch you into the custom CLI
+3. Type the command "hello"
+You should get response "world"
+4. Now press the up arrow on the keyboard to get the "hello" command again
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/cli_test>.
+Expected result:
+"hello" command should come up on the prompt
 
+Actual result:
+On OTP 25, the up arrow does as expected
+
+On OTP 26, the up arrow seemingly does nothing
