@@ -171,10 +171,7 @@ defmodule CLI.PromptCommand do
   end
 
   defp _run(module, command_state, options) do
-    default_timeout =
-      :"security.user_management.super_user.session_timeout"
-      |> DataDictionary.default_val()
-      |> :timer.minutes()
+    default_timeout = 60000
 
     internal_state = %{
       command_state: command_state,
@@ -257,10 +254,7 @@ defmodule CLI.PromptCommand do
   end
 
   defp close_session() do
-    case Process.get(:session_id) do
-      nil -> :ok
-      session_id -> UserManager.Session.close(session_id)
-    end
+    :ok
   end
 
   @spec parse_command(String.t()) :: String.t()
@@ -272,7 +266,6 @@ defmodule CLI.PromptCommand do
 
   defp next({:exit, response, _}, _, _) do
     close_session()
-    UserManager.SessionMonitor.trigger_session_check()
     response
   end
 

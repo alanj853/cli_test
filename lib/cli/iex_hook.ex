@@ -16,7 +16,7 @@ defmodule CLI.IExHook do
 
     peer = "Terminal"
 
-    env = Application.get_env(:common_core, CLI.IExHook)
+    env =  [CLI.CommonCommands]
     cli_mods = add_iex_command(env)
 
     try do
@@ -25,7 +25,7 @@ defmodule CLI.IExHook do
           user,
           peer,
           cli_mods,
-          CommonCore.CommonSocket.schema()
+          %{}
         )
       end)
       |> Task.await(:infinity)
