@@ -4,7 +4,6 @@ defmodule CLI.IExHook do
 
     This starts our own CLI instead of the standard iex> prompt.
   """
-  alias CLI.Login
   alias CLI.Shell
   alias IEx.Autocomplete
 
@@ -12,7 +11,7 @@ defmodule CLI.IExHook do
     IO.write(IO.ANSI.clear())
     IO.write(IO.ANSI.home())
 
-    user = Login.prompt()
+    user = {:ok, "sessionid1", "user1"}
 
     peer = "Terminal"
 
