@@ -5,22 +5,6 @@ defmodule CLI.Shell do
   alias CLI.Commands
   alias CLI.PromptCommand
 
-  @typedoc """
-  Options available to the shell
-
-  * `prompt` - The prompt that will be displayed to the user
-  * `before_exit` - a 0-arity function that will be run right before the shell exits
-  * `banner` - a function taking t:User.t/0 and returning a String to display when
-               the shell starts
-  """
-  @type option ::
-          {:before_exit, (-> term)}
-          | {:prompt, charlist() | String.t()}
-          | {:banner, (User.t() -> String.t())}
-  @type username :: charlist() | binary()
-  @type session :: String.t()
-  @type peer :: String.t()
-
   defstruct mods: [],
             prompt: ~c"myprompt> ",
             before_exit: &__MODULE__.noop/0,

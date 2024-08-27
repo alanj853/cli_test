@@ -16,15 +16,12 @@ defmodule CLI.IExHook do
 
     peer = "Terminal"
 
-    env = [CLI.CommonCommands]
-    cli_mods = add_iex_command(env)
-
     try do
       Task.async(fn ->
         Shell.run(
           user,
           peer,
-          cli_mods,
+          [],
           %{}
         )
       end)
@@ -45,28 +42,4 @@ defmodule CLI.IExHook do
     end
   end
 
-  @spec generate_iex_command() :: ([<<_::32>>] -> :exit | :ok)
-  defp generate_iex_command() do
-    pid = self()
-
-    fn
-      [] ->
-        send(pid, :iex_exit)
-        :exit
-
-      ["help"] ->
-        IO.puts("Exits to IEx")
-        :ok
-    end
-  end
-
-  defp add_iex_command(env) do
-    mods = Keyword.get(env, :cli_mods, [])
-
-    if Keyword.get(env, :allow_iex_command, false) do
-      [{"iex", generate_iex_command()} | mods]
-    else
-      mods
-    end
-  end
 end
